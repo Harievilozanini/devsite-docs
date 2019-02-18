@@ -15,11 +15,11 @@ install:
   - git config --global user.email "devsitebot@ml.com"
   - git clone -b hot-fix-files-in-country https://${USER_TOKEN}@github.com/mercadolibre/fury_mercadopago-devsite.git
   - (cd fury_mercadopago-devsite/ && git submodule update --init --recursive)
+  - (cd fury_mercadopago-devsite/ && git remote add upstream https://${USER_TOKEN}@github.com/mercadolibre/fury_mercadopago-devsite.git)
   - (cd fury_mercadopago-devsite/ && git branch feature-${TRAVIS_BRANCH})
   - (cd fury_mercadopago-devsite/ && git checkout feature-${TRAVIS_BRANCH})
   - (cd fury_mercadopago-devsite/src/source/docs/ && git fetch --all)
   - (cd fury_mercadopago-devsite/src/source/docs/ && git checkout ${TRAVIS_BRANCH})
-  - (cd fury_mercadopago-devsite/ && git remote add upstream https://${USER_TOKEN}@github.com/mercadolibre/fury_mercadopago-devsite.git)
   - (cd fury_mercadopago-devsite/src/source && git add . && git commit -m "updating docs reference" ) 
   - (cd fury_mercadopago-devsite/ && git pull upstream feature-${TRAVIS_BRANCH})
   - (cd fury_mercadopago-devsite/ && git push --quiet --set-upstream upstream ${TRAVIS_BRANCH})
