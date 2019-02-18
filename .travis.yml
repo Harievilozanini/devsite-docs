@@ -13,14 +13,15 @@ before_install:
 install:
   - git config --global user.name "devsitebot"
   - git config --global user.email "devsitebot@ml.com"
-  - git clone -b installing-devsite https://${USER_TOKEN}@github.com/mercadolibre/fury_mercadopago-devsite.git
+  - git clone -b master https://${USER_TOKEN}@github.com/mercadolibre/fury_mercadopago-devsite.git
   - (cd fury_mercadopago-devsite/ && git submodule update --init --recursive)
   - (cd fury_mercadopago-devsite/ && git branch feature-${TRAVIS_BRANCH})
   - (cd fury_mercadopago-devsite/ && git checkout feature-${TRAVIS_BRANCH})
   - (cd fury_mercadopago-devsite/src/source/docs/ && git fetch --all)
   - (cd fury_mercadopago-devsite/src/source/docs/ && git checkout ${TRAVIS_BRANCH})
-  - (cd fury_mercadopago-devsite/ && git remote set-url --push origin https://${USER_TOKEN}@github.com/mercadolibre/fury_mercadopago-devsite.git)
-  - (cd fury_mercadopago-devsite/src/source && git add . && git commit -m "updating docs reference" && git push origin ${TRAVIS_BRANCH}) 
+  - (cd fury_mercadopago-devsite/ && git remote add upstream https://${USER_TOKEN}@github.com/mercadolibre/fury_mercadopago-devsite.git)
+  - (cd fury_mercadopago-devsite/src/source && git add . && git commit -m "updating docs reference" ) 
+  - (cd fury_mercadopago-devsite/ && git push --quiet --set-upstream upstream ${TRAVIS_BRANCH})
   - (cd fury_mercadopago-devsite/ && hub pull-request -b feature-${TRAVIS_BRANCH} -h master)
   
 script: 
